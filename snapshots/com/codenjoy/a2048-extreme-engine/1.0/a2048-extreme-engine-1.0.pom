@@ -112,12 +112,12 @@
                         <configuration>
 
                             <target>
-                                <copy file="../../README.txt" tofile="README.txt"/>
+                                <copy file="../../README.txt" tofile="README.txt" failonerror="false"/>
 
                                 <copy file="../engine/engine-1.0.jar" tofile="libs/engine-1.0.jar"/>
                                 <copy file="../engine/engine-1.0-sources.jar" tofile="libs/engine-1.0-sources.jar"/>
-                                <copy file="../engine/pom.xml" tofile="libs/pom.xml"/>
-                                <copy file="../engine/setup.bat" tofile="libs/setup.bat"/>
+                                <copy file="../engine/pom.xml" tofile="libs/pom.xml" failonerror="false"/>
+                                <copy file="../engine/setup.bat" tofile="libs/setup.bat" failonerror="false"/>
 
                                 <delete file="src/main/webapp/resources/user/${module.name}-servers.zip"/>
 
