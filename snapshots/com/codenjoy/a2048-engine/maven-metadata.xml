@@ -3,7 +3,7 @@
   <groupId>com.codenjoy</groupId>
   <artifactId>a2048-engine</artifactId>
   <versioning>
-    <release>1.0.21</release>
+    <release>1.0.22b</release>
     <versions>
       <version>1.0.1</version>
       <version>1.0.2</version>
@@ -24,7 +24,8 @@
       <version>1.0.19</version>
       <version>1.0.20</version>
       <version>1.0.21</version>
+      <version>1.0.22b</version>
     </versions>
-    <lastUpdated>20170315160419</lastUpdated>
+    <lastUpdated>20170403182001</lastUpdated>
   </versioning>
 </metadata>
