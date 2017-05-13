@@ -1,7 +1,7 @@
 Codenjoy framework Maven Repository
 -----------
 
-Тут находится Maven репозиторий. Для подключения компонентов к своему проекту укажи в своем `pom.xml`
+This is Maven repository. To connect components to your project, type the following in your pom.xml file.
 ```
 <repositories>
 	<repository>
@@ -10,8 +10,8 @@ Codenjoy framework Maven Repository
 	</repository>
 </repositories>
 ```
-А так же одну из нескольких депенденсей
-- для интерфейсной части (на основе тих интерфейсов создаются игры)
+And one of several dependencies
+- for the interface part (games are based on these interfaces)
 ```
 <dependency>
 	<groupId>com.codenjoy</groupId>
@@ -19,7 +19,7 @@ Codenjoy framework Maven Repository
 	<version>${codenjoy.version}</version>
 </dependency>
 ```
-- для той или иной игры 
+- for a specific game 
 ```
 <dependency>
 	<groupId>com.codenjoy</groupId>
@@ -27,7 +27,7 @@ Codenjoy framework Maven Repository
 	<version>${codenjoy.version}</version>
 </dependency>
 ```
-- для сервера codenjoy
+- for the codenjoy server
 ```
 <dependency>
 	<groupId>com.codenjoy</groupId>
@@ -35,7 +35,7 @@ Codenjoy framework Maven Repository
 	<version>${codenjoy.version}</version>
 </dependency>
 ```
-- для сборщика игор (собирает сервер совместно с выбранными играми, [детальнее тут](https://github.com/codenjoyme/codenjoy-builder)
+- for the game assembler (assembles a server with selected games, [click here for details](https://github.com/codenjoyme/codenjoy-builder)
 ```
 <dependency>
 	<groupId>com.codenjoy</groupId>
@@ -43,13 +43,13 @@ Codenjoy framework Maven Repository
 	<version>${codenjoy.version}</version>
 </dependency>
 ```
-- последняя на данный момент версия
+- the latest version as of now
 ```
 <properties>
 	<codenjoy.version>1.0.7</codenjoy.version>
 </properties>
 ```
-- варианты игор
+- a choice of games
 ```
 <properties>
 	<game.name>sample-engine</game.name>
@@ -78,9 +78,9 @@ Codenjoy framework Maven Repository
 </properties>
 ```
 
-Другие материалы
+Other materials
 --------------
-Больше [деталей тут](https://github.com/codenjoyme/codenjoy)
+For [more details, click here](https://github.com/codenjoyme/codenjoy)
 
-[Команда Codenjoy](http://codenjoy.com/portal/?page_id=51)
+[Codenjoy team](http://codenjoy.com/portal/?page_id=51)
 ===========
