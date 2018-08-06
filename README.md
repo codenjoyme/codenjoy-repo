@@ -1,7 +1,11 @@
 Codenjoy framework Maven Repository
 -----------
 
-This is Maven repository. To connect components to your project, type the following in your pom.xml file.
+You can choose which games to run with the server with command
+```
+mvn clean jetty:run-war -Pgame1 -Pgame2 -Pgame3
+```
+This is Codenjoy Maven repository. To select existing games type the following in your pom.xml file.
 ```
 <repositories>
 	<repository>
@@ -10,72 +14,66 @@ This is Maven repository. To connect components to your project, type the follow
 	</repository>
 </repositories>
 ```
-And one of several dependencies
-- for the interface part (games are based on these interfaces)
+Choose codenjoy server/engine/games version
 ```
-<dependency>
-	<groupId>com.codenjoy</groupId>
-	<artifactId>sample-engine</artifactId>
-	<version>${codenjoy.version}</version>
-</dependency>
+<groupId>com.codenjoy</groupId>
+<artifactId>codenjoy-builder</artifactId>
+<!-- version for all codenjoy dependencies here -->
+<version>SERVER_VERSION</version>
 ```
-- for a specific game 
-```
-<dependency>
-	<groupId>com.codenjoy</groupId>
-	<artifactId>${game.name}-engine</artifactId>
-	<version>${codenjoy.version}</version>
-</dependency>
-```
-- for the codenjoy server
-```
-<dependency>
-	<groupId>com.codenjoy</groupId>
-    <artifactId>codenjoy-contest</artifactId>
-	<version>${codenjoy.version}</version>
-</dependency>
-```
-- for the game assembler (assembles a server with selected games, [click here for details](https://github.com/codenjoyme/codenjoy-builder)
-```
-<dependency>
-	<groupId>com.codenjoy</groupId>
-    <artifactId>codenjoy-builder</artifactId>
-	<version>${codenjoy.version}</version>
-</dependency>
-```
-- the latest version as of now
+The latest version as of now
 ```
 <properties>
-	<codenjoy.version>1.0.7</codenjoy.version>
+	<codenjoy.version>1.0.25</codenjoy.version>
 </properties>
 ```
-- a choice of games
+If you want to add your new game - please do thing bellow.
+Add your game dependency.
 ```
-<properties>
-	<game.name>sample-engine</game.name>
-	<!--
-		<game.name>a2048-engine</game.name>
-		<game.name>a2048-extreme-engine</game.name>
-		<game.name>bomberman-engine</game.name>
-		<game.name>battlecity-engine</game.name>
-		<game.name>chess-engine</game.name>
-		<game.name>collapse-engine</game.name>
-		<game.name>hex-engine</game.name>
-		<game.name>loderunner-engine</game.name>
-		<game.name>minesweeper-engine</game.name>
-		<game.name>rubicscube-engine</game.name>
-		<game.name>sudoku-engine</game.name>
-		<game.name>snake-engine</game.name>
-		<game.name>moebius-engine</game.name>
-		<game.name>football-engine</game.name>
-		<game.name>startandjump-engine</game.name>
-		<game.name>quake2d-engine</game.name>
-		<game.name>pong-engine</game.name>
-		<game.name>fifteen-engine</game.name>
-		<game.name>puzzlebox-engine</game.name>
-		<game.name>spacerace-engine</game.name>
-	-->
-</properties>
+<profiles>
+	<!-- Games dependencies (put your game here - replace YOURGAME) -->
+	<profile>
+		<id>YOURGAME</id>
+		<properties>
+			<exclude.YOURGAME>false</exclude.battlecity>
+		</properties>
+		<dependencies>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>YOURGAME-engine</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</profile>
+```
+Add game resources part in plugin[maven-dependency-plugin].executions tag
+```
+<!-- Games resources (put your game here - replace YOURGAME) -->
+<execution>
+	<id>unpack-YOURGAME</id>
+	<phase>compile</phase>
+	<goals>
+		<goal>unpack</goal>
+	</goals>
+	<configuration>
+		<skip>${exclude.YOURGAME}</skip>
+		<artifactItems>
+			<artifactItem>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>YOURGAME-engine</artifactId>
+				<version>${project.version}</version>
+				<type>jar</type>
+				<overWrite>true</overWrite>
+				<outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+				<includes>resources/**/*,WEB-INF/classes/com/codenjoy/dojo/server/*</includes>
+			</artifactItem>
+		</artifactItems>
+	</configuration>
+</execution>
+```
+Then
+```
+mvn clean jetty:run-war -Pyourgame
 ```
 
 Other materials
