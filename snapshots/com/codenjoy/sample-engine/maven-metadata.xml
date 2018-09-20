@@ -3,7 +3,7 @@
   <groupId>com.codenjoy</groupId>
   <artifactId>sample-engine</artifactId>
   <versioning>
-    <release>1.0.26</release>
+    <release>1.0.27-snake</release>
     <versions>
       <version>1.0</version>
       <version>1.0.1</version>
@@ -30,7 +30,8 @@
       <version>1.0.24</version>
       <version>1.0.25</version>
       <version>1.0.26</version>
+      <version>1.0.27-snake</version>
     </versions>
-    <lastUpdated>20180823180841</lastUpdated>
+    <lastUpdated>20180920113635</lastUpdated>
   </versioning>
 </metadata>

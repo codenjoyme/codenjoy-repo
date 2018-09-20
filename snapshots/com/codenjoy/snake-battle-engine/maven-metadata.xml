@@ -3,7 +3,7 @@
   <groupId>com.codenjoy</groupId>
   <artifactId>snake-battle-engine</artifactId>
   <versioning>
-    <release>1.0.26</release>
+    <release>1.0.27-snake</release>
     <versions>
       <version>1.0.20</version>
       <version>1.0.21</version>
@@ -12,7 +12,8 @@
       <version>1.0.24</version>
       <version>1.0.25</version>
       <version>1.0.26</version>
+      <version>1.0.27-snake</version>
     </versions>
-    <lastUpdated>20180823181013</lastUpdated>
+    <lastUpdated>20180920113801</lastUpdated>
   </versioning>
 </metadata>
