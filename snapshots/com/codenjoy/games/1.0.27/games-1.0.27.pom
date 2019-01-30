@@ -11,6 +11,8 @@
     <packaging>pom</packaging>
 
     <properties>
+        <build.time>${maven.build.timestamp}</build.time>
+
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -69,6 +71,7 @@
         <module>quadro</module>
         <module>lunolet</module>
         <module>tetris</module>
+        <!--module>icancode</module-->
     </modules>
 
     <dependencyManagement>
@@ -267,6 +270,9 @@
                         <canUpdateCopyright>false</canUpdateCopyright>
                         <canUpdateDescription>false</canUpdateDescription>
                         <canUpdateLicense>false</canUpdateLicense>
+                        <excludes>
+                            <exclude>**/*.json</exclude>
+                        </excludes>
                     </configuration>
                     <executions>
                         <execution>
