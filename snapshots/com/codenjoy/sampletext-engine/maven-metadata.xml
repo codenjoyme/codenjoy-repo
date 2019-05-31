@@ -3,7 +3,7 @@
   <groupId>com.codenjoy</groupId>
   <artifactId>sampletext-engine</artifactId>
   <versioning>
-    <release>1.0.28</release>
+    <release>1.1.0</release>
     <versions>
       <version>1.0.21</version>
       <version>1.0.22b</version>
@@ -13,7 +13,8 @@
       <version>1.0.26</version>
       <version>1.0.27</version>
       <version>1.0.28</version>
+      <version>1.1.0</version>
     </versions>
-    <lastUpdated>20190301121228</lastUpdated>
+    <lastUpdated>20190531175153</lastUpdated>
   </versioning>
 </metadata>
