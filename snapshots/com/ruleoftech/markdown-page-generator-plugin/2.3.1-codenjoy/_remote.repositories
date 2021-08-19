@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Aug 19 16:14:10 EEST 2021
+markdown-page-generator-plugin-2.3.1-codenjoy.jar>=
+markdown-page-generator-plugin-2.3.1-codenjoy.pom>=
+markdown-page-generator-plugin-2.3.1-codenjoy-javadoc.jar>=

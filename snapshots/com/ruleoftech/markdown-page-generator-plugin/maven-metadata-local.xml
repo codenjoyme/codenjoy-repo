@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.ruleoftech</groupId>
+  <artifactId>markdown-page-generator-plugin</artifactId>
+  <versioning>
+    <latest>2.3.1-codenjoy</latest>
+    <release>2.3.1-codenjoy</release>
+    <versions>
+      <version>2.3.1-codenjoy</version>
+    </versions>
+    <lastUpdated>20210819131410</lastUpdated>
+  </versioning>
+</metadata>
