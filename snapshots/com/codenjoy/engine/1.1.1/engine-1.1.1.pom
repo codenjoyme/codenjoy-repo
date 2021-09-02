@@ -64,6 +64,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>client-java</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.java-websocket</groupId>
             <artifactId>Java-WebSocket</artifactId>
             <version>${java-web-socket.version}</version>
@@ -177,6 +183,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <revisionOnScmFailure>no.scm.config.in.pom</revisionOnScmFailure>
                     <doCheck>false</doCheck>
                     <doUpdate>false</doUpdate>
                     <providerImplementations>

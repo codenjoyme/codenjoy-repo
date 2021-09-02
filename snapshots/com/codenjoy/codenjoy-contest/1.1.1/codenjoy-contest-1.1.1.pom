@@ -27,11 +27,12 @@
         <reflections.version>0.9.11</reflections.version> <!-- do not update -->
         <fest-reflect.version>1.4.1</fest-reflect.version>
         <selenium.version>3.141.59</selenium.version>
-        <selenium-htmlunit-driver.version>2.47.1</selenium-htmlunit-driver.version>
+        <sac.version>1.3</sac.version>
         <fest-assert.version>1.4</fest-assert.version>
         <guava.version>30.1-jre</guava.version>
         <joda-time.version>2.10.10</joda-time.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
+        <cucumber.version>6.10.0</cucumber.version>
         <!-- end -->
 
         <!-- Maven -->
@@ -39,7 +40,7 @@
         <maven-war-plugin.version>3.3.1</maven-war-plugin.version>
         <maven-license-plugin.version>2.0.0</maven-license-plugin.version>
         <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
-        <maven-minify-plugin.version>1.7.6</maven-minify-plugin.version>
+        <maven-minify-plugin.version>2.0.0-codenjoy</maven-minify-plugin.version>
         <maven-buildnumber-plugin.version>1.4</maven-buildnumber-plugin.version>
         <maven-scm-jgit.version>1.11.2</maven-scm-jgit.version>
 
@@ -66,6 +67,20 @@
             <url>http://maven.springframework.org/milestone/</url>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <!--  https://stackoverflow.com/questions/14396017/difference-between-repository-and-pluginrepository  -->
+        <!--  Maven will resolve plugin dependencies using the configured pluginRepository.
+              Other artifact dependencies (eg. a parent pom) are resolved using repository.  -->
+        <!--  We need to include <pluginDependency> here for minify-maven-plugin:2.0.0-codenjoy  -->
+        <pluginRepository>
+            <id>codenjoy-releases</id>
+            <url>https://github.com/codenjoyme/codenjoy-repo/raw/master/snapshots</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>maven-central</id>
+            <url>http://central.maven.org/maven2/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <profiles>
         <profile>
@@ -129,7 +144,7 @@
             </dependencies>
         </profile>
         <profile>
-            <id>bomberman</id>
+            <id>mollymage</id>
             <activation>
                 <property>
                     <name>allGames</name>
@@ -138,7 +153,7 @@
             <dependencies>
                 <dependency>
                     <groupId>${project.groupId}</groupId>
-                    <artifactId>bomberman-engine</artifactId>
+                    <artifactId>mollymage-engine</artifactId>
                     <version>${project.version}</version>
                 </dependency>
             </dependencies>
@@ -578,6 +593,36 @@
                 </dependency>
             </dependencies>
         </profile>
+        <profile>
+            <id>vacuum</id>
+            <activation>
+                <property>
+                    <name>allGames</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>vacuum-engine</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>xonix</id>
+            <activation>
+                <property>
+                    <name>allGames</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>xonix-engine</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
 <!-- this is your new game
         <profile>
             <id>yourgame</id>
@@ -831,6 +876,12 @@
 
         <!-- TESTING -->
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sample-engine</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
@@ -843,8 +894,26 @@
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>htmlunit-driver</artifactId>
-            <version>${selenium-htmlunit-driver.version}</version>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -910,6 +979,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <revisionOnScmFailure>no.scm.config.in.pom</revisionOnScmFailure>
                     <doCheck>false</doCheck>
                     <doUpdate>false</doUpdate>
                     <providerImplementations>
@@ -1008,6 +1078,7 @@
                                 <jsInclude>layout.js</jsInclude>
                                 <jsInclude>donate.js</jsInclude>
                                 <jsInclude>joystick.js</jsInclude>
+                                <jsInclude>chat.js</jsInclude>
                                 <jsInclude>leaderstable.js</jsInclude>
                                 <jsInclude>hotkeys.js</jsInclude>
                                 <jsInclude>advertisement.js</jsInclude>
@@ -1018,6 +1089,7 @@
                                 <jsInclude>register.js</jsInclude>
                                 <jsInclude>admin.js</jsInclude>
                                 <jsInclude>help.js</jsInclude>
+                                <jsInclude>error.js</jsInclude>
                                 <jsInclude>rules.js</jsInclude>
                                 <jsInclude>board.js</jsInclude>
                                 <jsInclude>board-only.js</jsInclude>
@@ -1041,6 +1113,13 @@
                     <encoding>utf8</encoding>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>${maven.test.excludes}</excludes>
                 </configuration>
             </plugin>
             <plugin>
