@@ -26,6 +26,10 @@
         <fest-assert.version>1.4</fest-assert.version>
         <!-- end -->
 
+        <!-- Testing -->
+        <pitest.version>1.6.4</pitest.version>
+        <!-- end -->
+
         <!-- Maven -->
         <maven-compiler.version>3.8.1</maven-compiler.version>
         <maven-resources.version>3.2.0</maven-resources.version>
@@ -48,19 +52,41 @@
         </repository>
     </repositories>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot-dependencies.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <profiles>
+        <profile>
+            <id>mutation</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-maven</artifactId>
+                        <version>${pitest.version}</version>
+                        <configuration>
+                            <targetClasses>
+                                <param>com.codenjoy.dojo.*</param>
+                            </targetClasses>
+                            <targetTests>
+                                <param>com.codenjoy.dojo.*</param>
+                            </targetTests>
+                            <excludedTestClasses>
+                                <excludedTestClass>**Smoke*Test</excludedTestClass>
+                                <excludedTestClass>**Performance*Test</excludedTestClass>
+                            </excludedTestClasses>
+                            <reportsDirectory>${project.basedir}/pitest/</reportsDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>pitest</id>
+                                <goals>
+                                    <goal>mutationCoverage</goal>
+                                </goals>
+                                <phase>test</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>jar-with-dependencies</id>
             <build>
@@ -96,6 +122,18 @@
             </build>
         </profile>
     </profiles>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>

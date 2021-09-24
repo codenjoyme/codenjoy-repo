@@ -27,6 +27,10 @@
         <fest-assert.version>1.4</fest-assert.version>
         <!-- end -->
 
+        <!-- Testing -->
+        <pitest.version>1.6.4</pitest.version>
+        <!-- end -->
+
         <!-- Maven -->
         <maven-compiler.version>3.8.1</maven-compiler.version>
         <maven-resources.version>3.2.0</maven-resources.version>
@@ -49,6 +53,43 @@
             <url>https://github.com/codenjoyme/codenjoy-repo/raw/master/snapshots</url>
         </repository>
     </repositories>
+
+    <profiles>
+        <profile>
+            <id>mutation</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-maven</artifactId>
+                        <version>${pitest.version}</version>
+                        <configuration>
+                            <targetClasses>
+                                <param>com.codenjoy.dojo.*</param>
+                            </targetClasses>
+                            <targetTests>
+                                <param>com.codenjoy.dojo.*</param>
+                            </targetTests>
+                            <excludedTestClasses>
+                                <excludedTestClass>**Smoke*Test</excludedTestClass>
+                                <excludedTestClass>**Performance*Test</excludedTestClass>
+                            </excludedTestClasses>
+                            <reportsDirectory>${project.basedir}/pitest/</reportsDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>pitest</id>
+                                <goals>
+                                    <goal>mutationCoverage</goal>
+                                </goals>
+                                <phase>test</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <dependencyManagement>
         <dependencies>

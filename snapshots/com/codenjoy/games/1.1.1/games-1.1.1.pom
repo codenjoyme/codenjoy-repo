@@ -81,7 +81,7 @@
         <module>chess</module>
         <module>collapse</module>
         <module>hex</module>
-        <module>loderunner</module>
+        <module>clifford</module>
         <module>minesweeper</module>
         <module>rubicscube</module>
         <module>sudoku</module>
@@ -518,6 +518,10 @@
                         <targetTests>
                             <param>com.codenjoy.dojo.${module.name}.*</param>
                         </targetTests>
+                        <excludedTestClasses>
+                            <excludedTestClass>**Smoke*Test</excludedTestClass>
+                            <excludedTestClass>**Performance*Test</excludedTestClass>
+                        </excludedTestClasses>
                         <reportsDirectory>${project.basedir}/pitest/</reportsDirectory>
                     </configuration>
                     <executions>
