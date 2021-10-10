@@ -53,7 +53,7 @@
         <spring-cloud-starter-oauth2.version>2.1.2.RELEASE</spring-cloud-starter-oauth2.version>
     </properties>
 
-    <repositories>
+    <!--repositories>
         <repository>
             <id>codenjoy-releases</id>
             <url>https://github.com/codenjoyme/codenjoy-repo/raw/master/snapshots</url>
@@ -66,7 +66,7 @@
             <id>springframework-maven</id>
             <url>http://maven.springframework.org/milestone/</url>
         </repository>
-    </repositories>
+    </repositories-->
     <pluginRepositories>
         <!--  https://stackoverflow.com/questions/14396017/difference-between-repository-and-pluginrepository  -->
         <!--  Maven will resolve plugin dependencies using the configured pluginRepository.
