@@ -84,7 +84,7 @@
                             <archive>
                                 <manifest>
                                     <addClasspath>false</addClasspath>
-                                    <mainClass>com.codenjoy.dojo.Runner</mainClass>
+                                    <mainClass>com.codenjoy.dojo.PseudoRunner</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
