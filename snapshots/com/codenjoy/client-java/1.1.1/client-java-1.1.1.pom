@@ -100,7 +100,7 @@
                             <archive>
                                 <manifest>
                                     <addClasspath>false</addClasspath>
-                                    <mainClass>com.codenjoy.dojo.Runner</mainClass>
+                                    <mainClass>com.codenjoy.dojo.JavaRunner</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
