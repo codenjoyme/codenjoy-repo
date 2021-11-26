@@ -54,7 +54,7 @@
                         <artifactId>maven-assembly-plugin</artifactId>
                         <version>${maven-assembly-plugin.version}</version>
                         <configuration>
-                            <finalName>${project.artifactId}-exec</finalName>
+                            <finalName>client-exec</finalName>
                             <archive>
                                 <manifest>
                                     <addClasspath>false</addClasspath>
