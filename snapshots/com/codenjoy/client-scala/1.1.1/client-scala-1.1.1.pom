@@ -53,6 +53,17 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <version>${maven-assembly-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <!-- Плагин отвечает за сборку запускного
+                                     jar -->
+                                <id>[##4]-make-assembly-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <configuration>
                             <finalName>client-exec</finalName>
                             <archive>
@@ -66,15 +77,6 @@
                             </descriptorRefs>
                             <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
-                        <executions>
-                            <execution>
-                                <id>make-assembly</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -122,8 +124,20 @@
                 <version>${maven-scala-plugin.version}</version>
                 <executions>
                     <execution>
+                        <!-- Плагин отвечает за компиляцию scala
+                             классов  -->
+                        <id>[##1]-compile-scala</id>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <!-- Плагин отвечает за компиляцию scala
+                             тестовых классов -->
+                        <id>[##3]-compile-scala-tests</id>
+                        <phase>process-test-sources</phase>
+                        <goals>
                             <goal>testCompile</goal>
                         </goals>
                     </execution>
@@ -138,6 +152,17 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <version>${maven-license.version}</version>
+                <executions>
+                    <execution>
+                        <!-- Плагин добавляет во все source файлы
+                             header лицензии -->
+                        <id>[##2]-add-license-headers</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
                 <configuration>
                     <licenseName>gpl_v3</licenseName>
                     <licenseResolver>${project.baseUri}/src/license</licenseResolver>
@@ -148,15 +173,6 @@
                     <canUpdateDescription>false</canUpdateDescription>
                     <canUpdateLicense>false</canUpdateLicense>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>first</id>
-                        <goals>
-                            <goal>update-file-header</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

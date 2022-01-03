@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
     <groupId>com.codenjoy</groupId>
     <artifactId>client-kotlin</artifactId>
     <version>1.1.1</version>
@@ -53,6 +52,17 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <version>${maven-assembly-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <!-- Плагин отвечает за сборку запускного
+                                     jar -->
+                                <id>[##4]-make-assembly-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <configuration>
                             <finalName>client-exec</finalName>
                             <archive>
@@ -66,15 +76,6 @@
                             </descriptorRefs>
                             <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
-                        <executions>
-                            <execution>
-                                <id>make-assembly</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -129,7 +130,9 @@
                 <version>${kotlin.version}</version>
                 <executions>
                     <execution>
-                        <id>compile</id>
+                        <!-- Плагин отвечает за компиляцию kotlin
+                             классов -->
+                        <id>[##1]-compile-kotlin</id>
                         <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
@@ -141,7 +144,9 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>test-compile</id>
+                        <!-- Плагин отвечает за компиляцию kotlin
+                             тестовых классов -->
+                        <id>[##3]-compile-kotlin-tests</id>
                         <phase>process-test-sources</phase>
                         <goals>
                             <goal>test-compile</goal>
@@ -158,6 +163,17 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <version>${maven-license.version}</version>
+                <executions>
+                    <execution>
+                        <!-- Плагин добавляет во все source файлы
+                             header лицензии -->
+                        <id>[##2]-add-license-headers</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
                 <configuration>
                     <licenseName>gpl_v3</licenseName>
                     <licenseResolver>${project.baseUri}/src/license</licenseResolver>
@@ -168,15 +184,6 @@
                     <canUpdateDescription>false</canUpdateDescription>
                     <canUpdateLicense>false</canUpdateLicense>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>first</id>
-                        <goals>
-                            <goal>update-file-header</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

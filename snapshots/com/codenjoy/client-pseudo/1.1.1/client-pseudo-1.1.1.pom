@@ -45,6 +45,17 @@
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-maven</artifactId>
                         <version>${pitest.version}</version>
+                        <executions>
+                            <execution>
+                                <!-- Плагин отвечает за мутационное тестирование.
+                                     Включается для игр ключом -Pmutation -->
+                                <id>[##3]-mutation-testing</id>
+                                <goals>
+                                    <goal>mutationCoverage</goal>
+                                </goals>
+                                <phase>test</phase>
+                            </execution>
+                        </executions>
                         <configuration>
                             <targetClasses>
                                 <param>com.codenjoy.dojo.*</param>
@@ -58,15 +69,6 @@
                             </excludedTestClasses>
                             <reportsDirectory>${project.basedir}/pitest/</reportsDirectory>
                         </configuration>
-                        <executions>
-                            <execution>
-                                <id>pitest</id>
-                                <goals>
-                                    <goal>mutationCoverage</goal>
-                                </goals>
-                                <phase>test</phase>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -79,6 +81,17 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <version>${maven-assembly-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <!-- Плагин отвечает за сборку запускного
+                                     jar -->
+                                <id>[##4]-make-assembly-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <configuration>
                             <finalName>client-exec</finalName>
                             <archive>
@@ -92,15 +105,6 @@
                             </descriptorRefs>
                             <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
-                        <executions>
-                            <execution>
-                                <id>make-assembly</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -171,19 +175,20 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler.version}</version>
-                <configuration>
-                    <encoding>utf8</encoding>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <version>${maven-license.version}</version>
+                <executions>
+                    <execution>
+                        <!-- Плагин добавляет во все source файлы
+                             header лицензии -->
+                        <id>[##1]-add-license-headers</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
                 <configuration>
                     <licenseName>gpl_v3</licenseName>
                     <licenseResolver>${project.baseUri}/src/license</licenseResolver>
@@ -194,15 +199,31 @@
                     <canUpdateDescription>false</canUpdateDescription>
                     <canUpdateLicense>false</canUpdateLicense>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler.version}</version>
                 <executions>
                     <execution>
-                        <id>first</id>
+                        <!-- Плагин отвечает за компиляцию
+                             классов -->
+                        <id>[##2]-compile-java</id>
                         <goals>
-                            <goal>update-file-header</goal>
+                            <goal>compile</goal>
                         </goals>
-                        <phase>process-sources</phase>
+                        <phase>compile</phase>
+                    </execution>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>none</phase>
                     </execution>
                 </executions>
+                <configuration>
+                    <encoding>utf8</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

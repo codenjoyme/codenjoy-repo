@@ -30,24 +30,15 @@
 
         <!-- Maven -->
         <maven-compiler.version>3.8.1</maven-compiler.version>
-        <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
         <maven-resources.version>3.2.0</maven-resources.version>
-        <maven-antrun.version>3.0.0</maven-antrun.version>
         <maven-license.version>2.0.0</maven-license.version>
         <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
+        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
         <maven-buildnumber-plugin.version>1.4</maven-buildnumber-plugin.version>
         <maven-scm-jgit.version>1.11.2</maven-scm-jgit.version>
         <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
-        <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
-
-        <user.resources>src/main/webapp/resources/${module.name}/user</user.resources>
-        <client.sources.file>clients.zip</client.sources.file>
-        <client.sources>${user.resources}/${client.sources.file}</client.sources>
-        <dojo.package>java/com/codenjoy/dojo</dojo.package>
-        <java.client.file>resources/user/java-client.zip</java.client.file>
-        <java.client>${project.build.directory}/java-client</java.client>
-        <markdown-page-generator.version>2.3.1-codenjoy</markdown-page-generator.version>
+        <maven-markdown-page-generator.version>2.3.1-codenjoy</maven-markdown-page-generator.version>
     </properties>
 
     <repositories>
@@ -74,19 +65,18 @@
     <modules>
         <module>engine</module>
         <module>sample</module>
-        <module>sample-text</module>
+        <module>sampletext</module>
         <module>a2048</module>
         <module>mollymage</module>
-        <module>battlecity</module>
+        <module>rawelbbub</module>
         <module>chess</module>
         <module>collapse</module>
         <module>hex</module>
         <module>clifford</module>
-        <module>minesweeper</module>
         <module>rubicscube</module>
         <module>sudoku</module>
-        <module>snake</module>
-        <module>snakebattle</module>
+        <module>knibert</module>
+        <module>namdreab</module>
         <module>moebius</module>
         <module>football</module>
         <module>startandjump</module>
@@ -141,7 +131,7 @@
                             <archive>
                                 <manifest>
                                     <addClasspath>false</addClasspath>
-                                    <mainClass>com.codenjoy.dojo.Main</mainClass>
+                                    <mainClass>com.codenjoy.dojo.${module.name}.runner.Main</mainClass>
                                 </manifest>
                             </archive>
                             <descriptors>
@@ -272,15 +262,42 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <!-- Плагин отвечает за очистку папки
+                                 target перед сборкой -->
+                            <id>[##1]-clean-target</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-clean</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>buildnumber-maven-plugin</artifactId>
                     <version>${maven-buildnumber-plugin.version}</version>
                     <executions>
                         <execution>
+                            <!-- Плагин добавляет git hash текущего коммита
+                                 из которого делается сборка -->
+                            <id>[##2]-generate-git-commit-hash</id>
                             <phase>validate</phase>
                             <goals>
                                 <goal>create</goal>
                             </goals>
+                        </execution>
+                        <execution>
+                            <id>default</id>
+                            <phase>none</phase>
                         </execution>
                     </executions>
                     <configuration>
@@ -309,164 +326,20 @@
                     </dependencies>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler.version}</version>
-                    <configuration>
-                        <encoding>utf8</encoding>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <excludes>${maven.test.excludes}</excludes>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven-source-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven-resources.version}</version>
-                    <configuration>
-                        <encoding>utf8</encoding>
-                        <nonFilteredFileExtensions>
-                            <nonFilteredFileExtension>zip</nonFilteredFileExtension>
-                        </nonFilteredFileExtensions>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>${maven-clean-plugin.version}</version>
-                    <configuration>
-                        <filesets>
-                            <fileset>
-                                <directory>${user.resources}</directory>
-                                <includes>
-                                    <include>**/${client.sources.file}</include>
-                                </includes>
-                                <followSymlinks>false</followSymlinks>
-                            </fileset>
-                        </filesets>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>${maven-jar-plugin.version}</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>**/logback.xml</exclude>
-                        </excludes>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>${maven-dependency-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>unpack</id>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>unpack</goal>
-                            </goals>
-                            <configuration>
-                                <artifactItems>
-                                    <artifactItem>
-                                        <groupId>${project.groupId}</groupId>
-                                        <artifactId>client-java</artifactId>
-                                        <version>${project.version}</version>
-                                        <type>jar</type>
-                                        <outputDirectory>${java.client}</outputDirectory>
-                                        <overWrite>true</overWrite>
-                                        <includes>${java.client.file}</includes>
-                                    </artifactItem>
-                                </artifactItems>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <version>${maven-antrun.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>prepare-package</phase>
-                            <goals>
-                                <goal>run</goal>
-                            </goals>
-                            <configuration>
-                                <target>
-                                    <unzip src="${java.client}/${java.client.file}"
-                                           dest="${java.client}"/>
-
-                                    <zip destfile="${client.sources}"
-                                         basedir="${java.client}"
-                                         includes="
-                                               src/main/${dojo.package}/client/**,
-                                               src/main/${dojo.package}/games/${module.name}/**,
-                                               src/main/${dojo.package}/services/**,
-                                               src/main/${dojo.package}/*.java,
-                                               src/main/java/org/json/*.java,
-                                               src/test/${dojo.package}/client/**,
-                                               src/test/${dojo.package}/games/${module.name}/**,
-                                               src/test/${dojo.package}/services/**,
-                                               src/test/${dojo.package}/*.java,
-                                               README.*,
-                                               mvnw,
-                                               mvnw.cmd,
-                                               src/license/**,
-                                               pom.xml"
-                                         update="true"/>
-
-                                    <zip destfile="${client.sources}"
-                                         basedir="."
-                                         includes="src/main/**"
-                                         excludes="src/main/java/**,
-                                                src/main/webapp/**,
-                                                src/main/resources/**,
-                                                **/target/**"
-                                         update="true"/>
-
-                                    <!-- используется для отключения DEBUG информации в STDOUT java клиентов -->
-                                    <!-- TODO ??? если logback.xml уже есть в игре, то не добавлять пустой (пример expansion) -->
-                                    <echo file="./target/stuff/logback.xml" append="false">
-                                        <![CDATA[
-                                            <configuration></configuration>
-                                        ]]>
-                                    </echo>
-                                    <zip destfile="${client.sources}" update="true">
-                                        <zipfileset dir="./target/stuff/" prefix="src/main/resources"/>
-                                    </zip>
-
-                                    <copy file="${client.sources}"
-                                          todir="target/classes/resources/${module.name}/user"/>
-                                </target>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
                     <version>${maven-license.version}</version>
+                    <executions>
+                        <execution>
+                            <!-- Плагин добавляет во все source файлы
+                                 header лицензии -->
+                            <id>[##3]-add-license-headers</id>
+                            <goals>
+                                <goal>update-file-header</goal>
+                            </goals>
+                            <phase>process-sources</phase>
+                        </execution>
+                    </executions>
                     <configuration>
                         <licenseName>gpl_v3</licenseName>
                         <licenseResolver>${project.baseUri}/src/license</licenseResolver>
@@ -480,20 +353,21 @@
                             <exclude>**/*.json</exclude>
                         </excludes>
                     </configuration>
-                    <executions>
-                        <execution>
-                            <id>first</id>
-                            <goals>
-                                <goal>update-file-header</goal>
-                            </goals>
-                            <phase>process-sources</phase>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>com.ruleoftech</groupId>
                     <artifactId>markdown-page-generator-plugin</artifactId>
-                    <version>${markdown-page-generator.version}</version>
+                    <version>${maven-markdown-page-generator.version}</version>
+                    <executions>
+                        <execution>
+                            <!-- Плагин превращает markdown в html -->
+                            <id>[##4]-convert-markdown-to-html</id>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <phase>process-sources</phase>
+                        </execution>
+                    </executions>
                     <configuration>
                         <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
 
@@ -506,19 +380,73 @@
                         <headerHtmlFile>${basedir}/src/main/webapp/resources/${module.name}/help/header.html</headerHtmlFile>
                         <footerHtmlFile>${basedir}/src/main/webapp/resources/${module.name}/help/footer.html</footerHtmlFile>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources.version}</version>
                     <executions>
                         <execution>
-                            <phase>process-resources</phase>
+                            <!-- Плагин отвечает за копирование
+                                 ресурсов -->
+                            <id>[##5]-copy-resources</id>
                             <goals>
-                                <goal>generate</goal>
+                                <goal>resources</goal>
                             </goals>
+                            <phase>generate-resources</phase>
+                        </execution>
+                        <execution>
+                            <id>default-resources</id>
+                            <phase>none</phase>
                         </execution>
                     </executions>
+                    <configuration>
+                        <encoding>utf8</encoding>
+                        <nonFilteredFileExtensions>
+                            <nonFilteredFileExtension>zip</nonFilteredFileExtension>
+                        </nonFilteredFileExtensions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler.version}</version>
+                    <executions>
+                        <execution>
+                            <!-- Плагин отвечает за компиляцию
+                                 классов -->
+                            <id>[##6]-compile-java</id>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <phase>compile</phase>
+                        </execution>
+                        <execution>
+                            <id>default-compile</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <encoding>utf8</encoding>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.pitest</groupId>
                     <artifactId>pitest-maven</artifactId>
                     <version>${pitest.version}</version>
+                    <executions>
+                        <execution>
+                            <!-- Плагин отвечает за мутационное тестирование.
+                                 Включается для игр ключом -Pmutation -->
+                            <id>[##7]-mutation-testing</id>
+                            <goals>
+                                <goal>mutationCoverage</goal>
+                            </goals>
+                            <phase>test</phase>
+                        </execution>
+                    </executions>
                     <configuration>
                         <targetClasses>
                             <param>com.codenjoy.dojo.${module.name}.*</param>
@@ -532,15 +460,74 @@
                         </excludedTestClasses>
                         <reportsDirectory>${project.basedir}/pitest/</reportsDirectory>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
                     <executions>
                         <execution>
-                            <id>pitest</id>
+                            <!-- Плагин отвечает за тестирование.
+                                 В данном случае позволяет исключать тесты
+                                 во время mvn билда c ключом -Dmaven.test.excludes -->
+                            <id>[##8]-java-testing</id>
                             <goals>
-                                <goal>mutationCoverage</goal>
+                                <goal>test</goal>
                             </goals>
                             <phase>test</phase>
                         </execution>
+                        <execution>
+                            <id>default-test</id>
+                            <phase>none</phase>
+                        </execution>
                     </executions>
+                    <configuration>
+                        <excludes>${maven.test.excludes}</excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <!-- Плагин добавляет jar с сырцами engine
+                                 в target -->
+                            <id>[##9]-attach-engine-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                            <phase>prepare-package</phase>
+                        </execution>
+                        <execution>
+                            <id>default-jar</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <!-- Плагин отвечает за сборку jar
+                                 файла -->
+                            <id>[##10]-make-jar</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                            <phase>prepare-package</phase>
+                        </execution>
+                        <execution>
+                            <id>default-jar</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/logback.xml</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
